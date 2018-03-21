@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="node_modules/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="node_modules/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="../client/css/jquery.booklet.latest.css" type="text/css" />
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="node_modules/onsenui/js/onsenui.js"></script>
+    <script src="node_modules/vue-onsenui/dist/vue-onsenui.js"></script>
+    <script src="../client/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../client/js/jquery-ui-1.10.4.min.js"></script>
+    <script type="text/javascript" src="../client/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="../client/js/jquery.booklet.latest.min.js"></script>
+
+    <title>my_portfolio</title>
+  </head>
+  <body>
+    
+    <template id="main-page">
+
+      <v-ons-page>
+          <!-- 固定配置するコンテンツ -->
+      
+        <v-ons-fab>
+            <!--<v-ons-toolbar>-->
+              <div>Yuki Nukii</div>
+            <!--</v-ons-toolbar>-->
+        </v-ons-fab>
+
+
+        
+        <v-ons-toolbar>
+          <div class = "Center">{{ title }}</div>
+        </v-ons-toolbar>
+        
+        <v-ons-tabbar swipeable position="auto"
+          :tabs="tabs"
+          :visible="true"
+          :index.sync="activeIndex"
+        >
+        </v-ons-tabbar>
+        
+      <v-ons-speed-dial position="bottom right" direction="up"
+        :visible="spdVisible"
+        :open.sync="spdOpen"
+      >
+        <v-ons-fab>
+          <v-ons-icon icon="md-face"></v-ons-icon>
+        </v-ons-fab>
+  
+        <v-ons-speed-dial-item v-for="(icon, name) in shareItems"
+          @click="$ons.notification.confirm(`Share on ${name}?`)"
+        >
+          <v-ons-icon :icon="icon"></v-ons-icon>
+        </v-ons-speed-dial-item>
+  
+      </v-ons-speed-dial>
+      
+        <v-ons-bottom-toolbar  class = 'center'>
+            <ons-list>
+                <ons-list-item modifier="noborder">  
+            
+              <p>Copyright © 2018 Yuki Nukii. All rights reserved.</p>
+            </ons-list-item>
+              <ons-list-item modifier="noborder">        
+                  <label class="left" for="switch1">
+              Switch ({{ switchOn ? 'on' : 'off' }})
+            </label>
+            <div class="right">
+              <v-ons-switch input-id="switch1"
+                v-model="switchOn"
+              >
+              </v-ons-switch>
+            </div>
+          </ons-list-item>
+        </ons-list>
+        </v-ons-bottom-toolbar>
+        
+      </v-ons-page>
+   
+  </template>
+          <template id="home">
+              <v-ons-page>
+                <p style="text-align: center">
+                  Change the settings.
+                </p>
+              </v-ons-page>
+        </template>
+        <template id="aboutPage">
+              <v-ons-page>
+                <p style="text-align: center">
+                  Change the settings.
+                </p>
+              </v-ons-page>
+        </template>
+        <template id="worksPage">
+              <v-ons-page>
+                <div id = "mybook">
+                <!--<p style="text-align: center">-->
+                <!--  Change the settings.-->
+                <!--</p>-->
+                  <div>
+                      <h3>Yay, Page 1!</h3>
+                  </div>
+                  <div>
+                      <h3>Yay, Page 2!</h3>
+                  </div>
+                  <div>
+                      <h3>Yay, Page 3!</h3>
+                  </div>
+                  <div>
+                      <h3>Yay, Page 4!</h3>
+                  </div>
+                  <div>
+                      <h3>Yay, Page 5!</h3>
+                  </div>
+                  <div>
+                      <h3>Yay, Page 6!</h3>
+                  </div>
+                </div>
+              </v-ons-page>
+        </template>
+        <template id="githubPage">
+              <v-ons-page>
+                <p style="text-align: center">
+                  Change the settings.
+                </p>
+              </v-ons-page>
+        </template>
+        <template id="helloPage">
+              <v-ons-page>
+                <p style="text-align: center">
+                  Change the settings.
+                </p>
+              </v-ons-page>
+        </template>
+
+  <div id="app"></div>
+  
+  <style>
+    /*#contents{*/
+      /*display:flex;*/
+    /*}*/
+  </style>  
+  
+  
+  <script>
+    const homePage = {
+      template: '#home',
+      props: ['myProp']
+    };
+    
+    const aboutPage = {
+      template: '#aboutPage'
+    };
+    
+    const worksPage = {
+      template: '#worksPage'
+    };
+    
+    const githubPage = {
+      template: '#githubPage'
+    };
+ 
+     const helloPage = {
+      template: '#helloPage'
+    };   
+    
+    var vm = new Vue({
+      el: '#app',
+      template: '#main-page',
+      data() {
+        return {
+          switchOn : true,
+          spdVisible: true,
+          spdOpen: true,
+          shareItems: {
+            'Twitter': 'md-twitter',
+            'Facebook': 'md-facebook',
+            'Google+': 'md-google-plus'
+          },
+          activeIndex: 0,
+          tabs: [
+            {
+              icon: this.md() ? null : 'ion-home',
+              label: 'Home',
+              page: homePage,
+              props: {
+                myProp: 'This is a page prop!'
+              },
+              key: "homePage"
+            },
+            {
+              icon: this.md() ? null : 'bath',
+              label: 'About',
+              page: aboutPage,
+              // badge: 7,
+              key: "aboutPage"
+            },
+            {
+              icon: this.md() ? null : 'pagelines',
+              label: 'Works',
+              page: worksPage,
+              key: "worksPage"
+            },
+            {
+              icon: this.md() ? null : 'github',
+              label: 'Github',
+              page: githubPage,
+              key: "githubPage"
+            },
+            {
+              icon: this.md() ? null : 'envelope',
+              label: 'Hello',
+              page: helloPage,
+              key: "helloPage"
+            }
+          ]
+        };
+      },
+      methods: {
+        md() {
+          return this.$ons.platform.isAndroid();
+        }
+      },
+      computed: {
+        title(){
+          return this.tabs[this.activeIndex].label;
+        }
+      }
+      
+    });
+    
+  </script>
+  
+  <script>
+  
+      $(function() {
+          //single book
+          $('#mybook').booklet({
+            width:'100%',
+            height:'100%',
+            manual: false,
+            overlays: true,
+            hovers: true,
+            auto: true,
+            deray: 1000
+          });
+             
+          //multiple books with ID's
+          $('#mybook1, #mybook2').booklet();
+      
+          //multiple books with a class
+          $('.mycustombooks').booklet();
+      });
+
+  </script>
+    <!--<script src="/dist/build.js"></script>-->
+  </body>
+</html>
